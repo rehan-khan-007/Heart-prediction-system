@@ -1,5 +1,6 @@
 from tkinter import *
 from PIL import Image, ImageTk
+from tkinter.ttk import Combobox
 from datetime import date
 import tkinter as tk
 import os
@@ -167,6 +168,45 @@ Label(detail_entry, text='restecg:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRA
 Label(detail_entry, text='slope:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=10, y=130)
 Label(detail_entry, text='ca:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=10, y=170)
 Label(detail_entry, text='thal:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=10, y=210)
+
+# This is to get the condition of cp
+def selection4():
+    input = cp_combobox.get()
+    if input=="0 = typical angina":
+        return(0)
+    elif input=="1 = atypical angina":
+        return(1)
+    elif input=="2 = non-anginal pain":
+        return(2)
+    elif input=="3 = asymptomatic":
+        return(3)
+    else:
+        print(Exang)
+
+# This is to get the condition of slope
+def selection5():
+    input = slope_combobox.get()
+    if input=="0 = upsloping":
+        return(0)
+    elif input=="1 = flat":
+        return(1)
+    elif input=="2 = downsloping":
+        return(2)
+    else:
+        print(Exang)
+
+# These are all the detailed options in each of the combo boxes
+cp_combobox = Combobox(detail_entry, values=['0 = typical angina', '1 = atypical angina', '2 = non-anginal pain', '3 = asymptomatic'], font= 'arial 12' , state='r', width=15)
+restecg_combobox = Combobox(detail_entry, values=['0', '1', '2'], font= 'arial 12' , state='r', width=11)
+slope_combobox = Combobox(detail_entry, values=['0 = upsloping', '1 = flat', '2 = downsloping'], font= 'arial 12' , state='r', width=13)
+ca_combobox = Combobox(detail_entry, values=['0','1','2','3','4'], font= 'arial 12' , state='r', width=15)
+thal_combobox = Combobox(detail_entry, values=['0','1','2','3'], font= 'arial 12' , state='r', width=14)
+
+cp_combobox.place(x=50, y=50)
+restecg_combobox.place(x=85, y=90)
+slope_combobox.place(x=70, y=130)
+ca_combobox.place(x=50, y=170)
+thal_combobox.place(x=58, y=210)
 
 
 
