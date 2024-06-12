@@ -209,5 +209,27 @@ ca_combobox.place(x=50, y=170)
 thal_combobox.place(x=58, y=210)
 
 
+############################# Data Entry Box
+Label(detail_entry, text='Smoking:', font='arial 13', width=7, bg= "#EC9706", fg='black').place(x=240, y=50)
+Label(detail_entry, text='trestbps:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=240, y=90)
+Label(detail_entry, text='chol:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=240, y=130)
+Label(detail_entry, text='thalach:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=240, y=170)
+Label(detail_entry, text='oldpeak:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=240, y=210)
+
+
+trestbps = StringVar()
+chol = StringVar()
+thalach = StringVar()
+oldpeak = StringVar()
+
+trestbps_entry = Entry(detail_entry, textvariable=trestbps, width=15, font='arial 15', bg='#ededed', fg='#222222', bd=0)
+chol_entry = Entry(detail_entry, textvariable=chol, width=15, font='arial 15', bg='#ededed', fg='#222222', bd=0)
+thalach_entry = Entry(detail_entry, textvariable=thalach, width=15, font='arial 15', bg='#ededed', fg='#222222', bd=0)
+oldpeak_entry = Entry(detail_entry, textvariable=oldpeak, width=15, font='arial 15', bg='#ededed', fg='#222222', bd=0)
+
+trestbps_entry.place(x=320, y=90)
+chol_entry.place(x=320, y=130)
+thalach_entry.place(x=320, y=170)
+oldpeak_entry.place(x=320, y=210)
 
 root.mainloop()
