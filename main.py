@@ -58,20 +58,20 @@ for img_path in header_images:
         x_offset += label.image.width()
 
 # Frame 3
-heading_entry = Frame(root, width=670, height=170, bg="#B9BBB6") # Light grey with subtle green
+heading_entry = Frame(root, width=650, height=180, bg="#B9BBB6") # Light grey with subtle green
 heading_entry.place(x=0, y=200)
 
 # This creates label for all the four entry fields
 def create_label(master, text, x, y):
     return Label(master, text=text, font="arial 13", bg=LABEL_BG_COLOR, fg=LABEL_FG_COLOR).place(x=x, y=y)
 
-create_label(heading_entry, "Registration Number", 30, 10)
-create_label(heading_entry, "Today's Date", 370, 10)
-create_label(heading_entry, "Patient Name", 30, 90)
-create_label(heading_entry, "Birth Year", 370, 90)
+create_label(heading_entry, "Registration Number", 25, 10)
+create_label(heading_entry, "Today's Date", 350, 10)
+create_label(heading_entry, "Patient Name", 25, 90)
+create_label(heading_entry, "Birth Year", 350, 90)
 
 entry_images = [PhotoImage(file="Images/Rectangle1.png"), PhotoImage(file="Images/Rectangle2.png")]
-entry_positions = [(30, 40), (30, 120), (370, 40), (370, 120)]
+entry_positions = [(25, 40), (25, 120), (350, 40), (350, 120)]
 
 for img, (x, y) in zip(entry_images*2, entry_positions):
     Label(heading_entry, image=img, bg="#B9BBB6").place(x=x, y=y)
@@ -79,26 +79,26 @@ for img, (x, y) in zip(entry_images*2, entry_positions):
 # Entry field for Registration number
 registration = IntVar()
 reg_entry = Entry(heading_entry, textvariable=registration, width=20, font="arial 15", bg=ENTRY_BG_COLOR, fg=ENTRY_FG_COLOR, bd=0)
-reg_entry.place(x=36, y=49)
+reg_entry.place(x=31, y=49)
 
 # Entry field for Current date
 Date = StringVar()
 today = date.today()
 Date.set(today.strftime("%d/%m/%Y"))
 date_entry = Entry(heading_entry, textvariable=Date, width=15, font='arial 15', bg=ENTRY_BG_COLOR, fg=ENTRY_FG_COLOR, bd=0)
-date_entry.place(x=380, y=49)
+date_entry.place(x=360, y=49)
 
 # Entry field for Name
 name = StringVar()
 name_entry = Entry(heading_entry, textvariable=name, width=21, font="arial 16", bg="#ededed", fg="#222222", bd=0)
-name_entry.place(x=36, y=128)
+name_entry.place(x=31, y=128)
 
 # Entry field for Date of Birth
 DOB = IntVar()
 dob_entry = Entry(heading_entry, textvariable=DOB, width=18, font="arial 16", bg="#ededed", fg="#222222", bd=0)
-dob_entry.place(x=380, y=130)
+dob_entry.place(x=360, y=130)
 
-######################################### body for all the personal health details
+######################################### body for all the personal health details ##################
 detail_entry = Frame(root, width=500, height=260, bg="#EC9706")
 detail_entry.place(x=30, y=420)
 
@@ -209,7 +209,8 @@ ca_combobox.place(x=50, y=170)
 thal_combobox.place(x=58, y=210)
 
 
-############################# Data Entry Box
+############################# Data Entry Box ###########
+
 Label(detail_entry, text='Smoking:', font='arial 13', width=7, bg= "#EC9706", fg='black').place(x=240, y=50)
 Label(detail_entry, text='trestbps:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=240, y=90)
 Label(detail_entry, text='chol:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=240, y=130)
@@ -231,5 +232,27 @@ trestbps_entry.place(x=320, y=90)
 chol_entry.place(x=320, y=130)
 thalach_entry.place(x=320, y=170)
 oldpeak_entry.place(x=320, y=210)
+
+######################### Report ###############
+
+square_report_image = PhotoImage(file="Images/Report.png")
+report_background = Label(image=square_report_image, bg=BACKGROUND_COLOR)
+report_background.place(x=1140, y=340)
+
+report = Label(root, font='arial 25 bold', bg='white', fg='#8dc63f')
+report.place(x=1190, y=550)
+
+report1 = Label(root, font='arial 10 bold', bg='white')
+report1.place(x=1150, y=610)
+
+#################################################
+
+
+######################### Graph ###############
+graph_image = PhotoImage(file='Images/graph.png')
+Label(image=graph_image).place(x=675, y=220)
+Label(image=graph_image).place(x=920, y=220)
+Label(image=graph_image).place(x=675, y=450)
+Label(image=graph_image).place(x=920, y=450)
 
 root.mainloop()
