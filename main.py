@@ -111,6 +111,47 @@ def analysis():
     print ("M is thal:",M)
 
 
+    ####### First Graph
+    f = Figure(figsize=(5,5), dpi=100)
+    a = f.add_subplot(111)
+    a.plot(["Gender", 'fbs', 'exang'], [B, F, I], marker='o', linestyle='-')
+    f.subplots_adjust(left=0.2, top=0.95, right=0.95)
+    canvas = FigureCanvasTkAgg(f)
+    canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+    canvas._tkcanvas.place(width=250, height=250, x=650, y=215)
+
+    ####### Second Graph
+    f2 = Figure(figsize=(5,5), dpi=100)
+    a2 = f2.add_subplot(111)
+    a2.plot(["age", 'trestbps', 'chol', 'thalach'],[A, D, E, H], marker='o', linestyle='-')
+    f2.subplots_adjust(left=0.2, top=0.95, right=0.93)
+    canvas2 = FigureCanvasTkAgg(f2)
+    canvas2.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+    canvas2._tkcanvas.place(width=250, height=250, x=900, y=215)
+
+    ####### Third Graph
+    f3 = Figure(figsize=(5,5), dpi=100)
+    a3 = f3.add_subplot(111)
+    a3.plot(['oldpeak', 'restcg','cp'],[J, G, C], marker='o', linestyle='-')
+    f3.subplots_adjust(left=0.2, top=0.95, right=0.95)
+    canvas3 = FigureCanvasTkAgg(f3)
+    canvas3.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+    canvas3._tkcanvas.place(width=250, height=250, x=650, y=466)
+
+    ####### Fourth Graph
+    f4 = Figure(figsize=(5,5), dpi=100)
+    a4 = f4.add_subplot(111)
+    a4.plot(['slope', 'ca', 'thal'],[K, L, M], marker='o', linestyle='-')
+    f4.subplots_adjust(left=0.2, top=0.95, right=0.95)
+    canvas3 = FigureCanvasTkAgg(f4)
+    canvas3.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+    canvas3._tkcanvas.place(width=250, height=250, x=900, y=466)
+
+
+    # Input Data
+    input_data = (A, B, C, D, E, F, G, H, I, J, K, L, M)
+
+
 ############### Info window (operated by info button) #############
 def info():
     icon_window = Toplevel(root)
