@@ -1,7 +1,8 @@
 from tkinter import *
+from tkinter import messagebox
 from PIL import Image, ImageTk
-from tkinter.ttk import Combobox
-from datetime import date
+from tkinter.ttk import Combobox 
+from datetime import date; import datetime
 import tkinter as tk
 import os
 
@@ -27,8 +28,88 @@ RADIO_BG_COLOR = "#228B22"
 root = Tk()
 root.title("Heart Attack Prediction System")
 root.geometry("1445x730+60+80")
-root.resizable(False, False)
+#root.resizable(False, False)
 root.config(bg=BACKGROUND_COLOR)
+
+######### Analysis #######################
+def analysis():
+    name = Name.get()
+    D1 = Date.get()
+    today = datetime.date.today()
+    A = today.year-DOB.get()
+
+    try:
+        B = selection()
+    except:
+        messagebox.showerror("missing", "Please select Gender!!")
+        return
+    
+    try:
+        F = selection2()
+    except:
+        messagebox.showerror("missing", "Please select fbs!!")
+        return
+    
+    try:
+        I = selection3()
+    except:
+        messagebox.showerror("missing", "Please select exang!!")
+        return
+    
+    try:
+        C = int(selection4())
+    except:
+        messagebox.showerror("missing", "Please select cp!!")
+        return
+    
+    try:
+        G = int(restecg_combobox.get())
+    except:
+        messagebox.showerror("missing", "Please select restecg!!")
+        return
+    
+    try:
+        K = int(selection5())
+    except:
+        messagebox.showerror("missing", "Please select slope!!")
+        return
+    
+    try:
+        L = int(ca_combobox.get())
+    except:
+        messagebox.showerror("missing", "Please select ca!!")
+        return
+
+    try:
+        M = int(thal_combobox.get())
+    except:
+        messagebox.showerror("missing", "Please select thal!!")
+        return
+    
+    try:
+        D = int(trestbps.get())
+        E = int(chol.get())
+        H = int(thalach.get())
+        J = int(oldpeak.get())
+    except:
+        messagebox.showerror("missing data", "Some data entries are missing!!")
+        return
+    
+    ### checking whether all're working or not
+    print("A is age:",A)
+    print("B is gender :",B)
+    print("C is cp:",C)
+    print("D is trestbps:",D)
+    print("E is chol",E)
+    print("F is fbs:",F)
+    print("G is restcg:",G)
+    print ("H is thalach:",H)
+    print("I is Exang:",I)
+    print("J is oldpeak:",J)
+    print("K is slop:",K)
+    print("L is ca:",L)
+    print ("M is thal:",M)
+
 
 ############### Info window (operated by info button) #############
 def info():
@@ -45,7 +126,7 @@ def info():
 
     # Info
     Label(icon_window, text="age - age in years", font='arial 11').place(x=20, y=100)
-    Label(icon_window, text="sex - sex (1 = male; 0 = female)", font='arial 11').place(x=20, y=130)
+    Label(icon_window, text="gender - gender (1 = male; 0 = female)", font='arial 11').place(x=20, y=130)
     Label(icon_window, text="cp - chest pain type (0 = typical angina; 1 = atypical angina; 2 = non-anginal pain; 3 = asymptomatic)", font='arial 11').place(x=20, y=160)
     Label(icon_window, text="trestbps - resting blood pressure (in mm Hg on admission to the hospital)", font='arial 11').place(x=20, y=190)
     Label(icon_window, text="chol - serum cholesterol in mg/dl", font='arial 11').place(x=20, y=220)
@@ -58,12 +139,20 @@ def info():
     Label(icon_window, text="ca - number of major vessels (0-3) colored by flourosopy", font='arial 11').place(x=20, y=430)
     Label(icon_window, text="thal - 0 = normal; 1 = fixed defect; 2 = reversable defect", font='arial 11').place(x=20, y=460)
 
-
-
-
-
-
     icon_window.mainloop()
+
+# This is used for logging out a user and closing window
+def logout():
+    root.destroy()
+
+#### It is used to clear the entry fields all at once
+def clear():
+    Name.get("")
+    DOB.get("")
+    trestbps.get("")
+    chol.get("")
+    thalach.set('')
+    oldpeak.set('')
 
 # Set the icon of tkinter as heart
 icon_path = "spirit_love_like_valentine_romance_soul_heart_game_icon_262424.ico"
@@ -124,8 +213,8 @@ date_entry = Entry(heading_entry, textvariable=Date, width=15, font='arial 15', 
 date_entry.place(x=360, y=49)
 
 # Entry field for Name
-name = StringVar()
-name_entry = Entry(heading_entry, textvariable=name, width=21, font="arial 16", bg="#ededed", fg="#222222", bd=0)
+Name = StringVar()
+name_entry = Entry(heading_entry, textvariable=Name, width=21, font="arial 16", bg="#ededed", fg="#222222", bd=0)
 name_entry.place(x=31, y=128)
 
 # Entry field for Date of Birth
@@ -133,7 +222,7 @@ DOB = IntVar()
 dob_entry = Entry(heading_entry, textvariable=DOB, width=18, font="arial 16", bg="#ededed", fg="#222222", bd=0)
 dob_entry.place(x=360, y=130)
 
-######################################### body for all the personal health details ##################
+######################################### Body for all the personal health details ##################
 
 detail_entry = Frame(root, width=540, height=260, bg="#EC9706")
 detail_entry.place(x=60, y=420)
@@ -159,23 +248,18 @@ def selection2():
     if fbs.get()==1:
         Fbs = 1
         return(Fbs)
-    elif Fbs.get()==2:
+    elif fbs.get()==2:
         Fbs = 2
         return(Fbs)
-    else:
-        print(Fbs)
 
 # Stores if Exang is there or not
 def selection3():
     if exang.get()==1:
         Exang = 1
         return(Exang)
-    elif Exang.get()==2:
+    elif exang.get()==2:
         Exang = 2
         return(Exang)
-    else:
-        print(Exang)
-
 
 # Gender radio button
 gender = IntVar()
@@ -198,7 +282,7 @@ R6_button = Radiobutton(detail_entry, text='No', variable = exang, value= 2, com
 R5_button.place(x=425, y=10)
 R6_button.place(x=465, y=10)
 
-############# Combo box
+############# Combo box ############################
 Label(detail_entry, text='cp:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=30, y=50)
 Label(detail_entry, text='restecg:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=30, y=90)
 Label(detail_entry, text='slope:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=30, y=130)
@@ -216,8 +300,6 @@ def selection4():
         return(2)
     elif input=="3 = asymptomatic":
         return(3)
-    else:
-        print(Exang)
 
 # This is to get the condition of slope
 def selection5():
@@ -228,8 +310,7 @@ def selection5():
         return(1)
     elif input=="2 = downsloping":
         return(2)
-    else:
-        print(Exang)
+
 
 # These are all the detailed options in each of the combo boxes
 cp_combobox = Combobox(detail_entry, values=['0 = typical angina', '1 = atypical angina', '2 = non-anginal pain', '3 = asymptomatic'], font= 'arial 12' , state='r', width=15)
@@ -244,7 +325,6 @@ slope_combobox.place(x=90, y=130)
 ca_combobox.place(x=70, y=170)
 thal_combobox.place(x=78, y=210)
 
-
 ############################# Data Entry Box ###########
 
 Label(detail_entry, text='Smoking:', font='arial 13', width=7, bg= "#EC9706", fg='black').place(x=260, y=50)
@@ -252,7 +332,6 @@ Label(detail_entry, text='trestbps:', font='arial 13', width=7, bg= RADIO_BG_COL
 Label(detail_entry, text='chol:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=260, y=130)
 Label(detail_entry, text='thalach:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=260, y=170)
 Label(detail_entry, text='oldpeak:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=260, y=210)
-
 
 trestbps = StringVar()
 chol = StringVar()
@@ -282,7 +361,6 @@ report1 = Label(root, font='arial 10 bold', bg='white')
 report1.place(x=1170, y=610)
 
 
-
 ######################### Graph ###############
 graph_image = PhotoImage(file='Images/graph.png')
 Label(image=graph_image).place(x=675, y=220)
@@ -293,7 +371,7 @@ Label(image=graph_image).place(x=920, y=450)
 
 ######################## Analysis Button ##########
 analysis_button = PhotoImage(file="Images/analysis1.png")
-Button(root, image= analysis_button, bd=0, bg='black', cursor='hand2').place(x=1160,y=220)
+Button(root, image= analysis_button, bd=0, bg='black', cursor='hand2', command=analysis).place(x=1160,y=220)
 
 ######################## Info Button ##############
 info_button = PhotoImage(file="Images/info1.png")
@@ -331,11 +409,8 @@ mode.place(x=400, y=465)
 ################ Log Out Button ############
 
 logout_icon = PhotoImage(file='Images/logout1.png')
-logout_button = Button(root, image=logout_icon, bg='black', cursor='hand2', bd=0)
+logout_button = Button(root, image=logout_icon, bg='black', cursor='hand2', bd=0, command=logout)
 logout_button.place(x=1330, y=210)
-
-
-
 
 
 root.mainloop()
