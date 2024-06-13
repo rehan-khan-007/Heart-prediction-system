@@ -258,7 +258,7 @@ Label(image=graph_image).place(x=920, y=450)
 
 ######################## Analysis Button ##########
 analysis_button = PhotoImage(file="Images/analysis1.png")
-Button(root, image= analysis_button, bd=0, bg=BACKGROUND_COLOR, cursor='hand2').place(x=1160,y=220)
+Button(root, image= analysis_button, bd=0, bg='black', cursor='hand2').place(x=1160,y=220)
 
 ######################## Info Button ##############
 info_button = PhotoImage(file="Images/info1.png")
@@ -266,6 +266,41 @@ Button(root, image= info_button, bd=0, bg=BACKGROUND_COLOR, cursor='hand2').plac
 
 ######################## Save Button ##############
 save_button = PhotoImage(file="Images/save1.png")
-Button(root, image= save_button, bd=0, bg=BACKGROUND_COLOR, cursor='hand2').place(x=1340,y=260)    
+Button(root, image= save_button, bd=0, bg='black', cursor='hand2').place(x=1330,y=280)    
+
+#################### Smoking and Non-Smoking Button ###############
+button_mode = True
+choice = 'smoking'
+def change_mode():
+    global button_mode
+    global choice
+
+    if button_mode:
+        choice = 'non-smoking'
+        mode.config(image=non_smoking_icon, activebackground='white')
+        button_mode = False
+    else:
+        choice = 'smoking'
+        mode.config(image=smoking_icon, activebackground='white')
+        button_mode = True
+
+    print(choice)
+
+smoking_icon = PhotoImage(file="Images/smoker.png")
+non_smoking_icon = PhotoImage(file="Images/non-smoker.png")
+
+mode = Button(root, image=smoking_icon, bg = '#dbe0e3', bd=0, cursor='hand2', command=change_mode)
+mode.place(x=400, y=465)
+
+
+################ Log Out Button ############
+
+logout_icon = PhotoImage(file='Images/logout1.png')
+logout_button = Button(root, image=logout_icon, bg='black', cursor='hand2', bd=0)
+logout_button.place(x=1330, y=210)
+
+
+
+
 
 root.mainloop()
