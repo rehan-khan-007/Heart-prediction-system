@@ -26,7 +26,7 @@ RADIO_BG_COLOR = "#228B22"
 # Create the main window
 root = Tk()
 root.title("Heart Attack Prediction System")
-root.geometry("1400x730+60+80")
+root.geometry("1445x730+60+80")
 root.resizable(False, False)
 root.config(bg=BACKGROUND_COLOR)
 
@@ -99,13 +99,14 @@ dob_entry = Entry(heading_entry, textvariable=DOB, width=18, font="arial 16", bg
 dob_entry.place(x=360, y=130)
 
 ######################################### body for all the personal health details ##################
-detail_entry = Frame(root, width=500, height=260, bg="#EC9706")
-detail_entry.place(x=30, y=420)
+
+detail_entry = Frame(root, width=540, height=260, bg="#EC9706")
+detail_entry.place(x=60, y=420)
 
 # Creating the entry for Radio buttons
-Label(detail_entry,text='Gender:', font='arial 13', bg=RADIO_BG_COLOR,fg=FRAME_FG_COLOR).place(x=10,y=10)
-Label(detail_entry,text='Fbs:', font='arial 13', bg=RADIO_BG_COLOR,fg=FRAME_FG_COLOR).place(x=200,y=10)
-Label(detail_entry,text='Exang:', font='arial 13', bg=RADIO_BG_COLOR,fg=FRAME_FG_COLOR).place(x=350,y=10)
+Label(detail_entry,text='Gender:', font='arial 13', bg=RADIO_BG_COLOR,fg=FRAME_FG_COLOR).place(x=30,y=10)
+Label(detail_entry,text='Fbs:', font='arial 13', bg=RADIO_BG_COLOR,fg=FRAME_FG_COLOR).place(x=220,y=10)
+Label(detail_entry,text='Exang:', font='arial 13', bg=RADIO_BG_COLOR,fg=FRAME_FG_COLOR).place(x=370,y=10)
 
 # Stores the selected gender
 def selection():
@@ -145,29 +146,29 @@ def selection3():
 gender = IntVar()
 R1_button = Radiobutton(detail_entry, text='Male', variable = gender, value= 1, command= selection)
 R2_button = Radiobutton(detail_entry, text='Female', variable = gender, value= 2, command= selection)
-R1_button.place(x=75, y=10)
-R2_button.place(x=125, y=10)
+R1_button.place(x=95, y=10)
+R2_button.place(x=145, y=10)
 
 # Fbs radio button
 fbs = IntVar()
 R3_button = Radiobutton(detail_entry, text='True', variable = fbs, value= 1, command= selection2)
 R4_button = Radiobutton(detail_entry, text='False', variable = fbs, value= 2, command= selection2)
-R3_button.place(x=238, y=10)
-R4_button.place(x=285, y=10)
+R3_button.place(x=258, y=10)
+R4_button.place(x=305, y=10)
 
 # Exang radio button
 exang = IntVar()
 R5_button = Radiobutton(detail_entry, text='Yes', variable = exang, value= 1, command= selection3)
 R6_button = Radiobutton(detail_entry, text='No', variable = exang, value= 2, command= selection3)
-R5_button.place(x=405, y=10)
-R6_button.place(x=445, y=10)
+R5_button.place(x=425, y=10)
+R6_button.place(x=465, y=10)
 
 ############# Combo box
-Label(detail_entry, text='cp:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=10, y=50)
-Label(detail_entry, text='restecg:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=10, y=90)
-Label(detail_entry, text='slope:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=10, y=130)
-Label(detail_entry, text='ca:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=10, y=170)
-Label(detail_entry, text='thal:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=10, y=210)
+Label(detail_entry, text='cp:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=30, y=50)
+Label(detail_entry, text='restecg:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=30, y=90)
+Label(detail_entry, text='slope:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=30, y=130)
+Label(detail_entry, text='ca:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=30, y=170)
+Label(detail_entry, text='thal:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=30, y=210)
 
 # This is to get the condition of cp
 def selection4():
@@ -202,20 +203,20 @@ slope_combobox = Combobox(detail_entry, values=['0 = upsloping', '1 = flat', '2 
 ca_combobox = Combobox(detail_entry, values=['0','1','2','3','4'], font= 'arial 12' , state='r', width=15)
 thal_combobox = Combobox(detail_entry, values=['0','1','2','3'], font= 'arial 12' , state='r', width=14)
 
-cp_combobox.place(x=50, y=50)
-restecg_combobox.place(x=85, y=90)
-slope_combobox.place(x=70, y=130)
-ca_combobox.place(x=50, y=170)
-thal_combobox.place(x=58, y=210)
+cp_combobox.place(x=70, y=50)
+restecg_combobox.place(x=105, y=90)
+slope_combobox.place(x=90, y=130)
+ca_combobox.place(x=70, y=170)
+thal_combobox.place(x=78, y=210)
 
 
 ############################# Data Entry Box ###########
 
-Label(detail_entry, text='Smoking:', font='arial 13', width=7, bg= "#EC9706", fg='black').place(x=240, y=50)
-Label(detail_entry, text='trestbps:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=240, y=90)
-Label(detail_entry, text='chol:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=240, y=130)
-Label(detail_entry, text='thalach:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=240, y=170)
-Label(detail_entry, text='oldpeak:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=240, y=210)
+Label(detail_entry, text='Smoking:', font='arial 13', width=7, bg= "#EC9706", fg='black').place(x=260, y=50)
+Label(detail_entry, text='trestbps:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=260, y=90)
+Label(detail_entry, text='chol:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=260, y=130)
+Label(detail_entry, text='thalach:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=260, y=170)
+Label(detail_entry, text='oldpeak:', font='arial 13', width=7, bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=260, y=210)
 
 
 trestbps = StringVar()
@@ -228,24 +229,23 @@ chol_entry = Entry(detail_entry, textvariable=chol, width=15, font='arial 15', b
 thalach_entry = Entry(detail_entry, textvariable=thalach, width=15, font='arial 15', bg='#ededed', fg='#222222', bd=0)
 oldpeak_entry = Entry(detail_entry, textvariable=oldpeak, width=15, font='arial 15', bg='#ededed', fg='#222222', bd=0)
 
-trestbps_entry.place(x=320, y=90)
-chol_entry.place(x=320, y=130)
-thalach_entry.place(x=320, y=170)
-oldpeak_entry.place(x=320, y=210)
+trestbps_entry.place(x=340, y=90)
+chol_entry.place(x=340, y=130)
+thalach_entry.place(x=340, y=170)
+oldpeak_entry.place(x=340, y=210)
 
 ######################### Report ###############
 
 square_report_image = PhotoImage(file="Images/Report.png")
 report_background = Label(image=square_report_image, bg=BACKGROUND_COLOR)
-report_background.place(x=1140, y=340)
+report_background.place(x=1160, y=340)
 
 report = Label(root, font='arial 25 bold', bg='white', fg='#8dc63f')
-report.place(x=1190, y=550)
+report.place(x=1210, y=550)
 
 report1 = Label(root, font='arial 10 bold', bg='white')
-report1.place(x=1150, y=610)
+report1.place(x=1170, y=610)
 
-#################################################
 
 
 ######################### Graph ###############
@@ -254,5 +254,18 @@ Label(image=graph_image).place(x=675, y=220)
 Label(image=graph_image).place(x=920, y=220)
 Label(image=graph_image).place(x=675, y=450)
 Label(image=graph_image).place(x=920, y=450)
+
+
+######################## Analysis Button ##########
+analysis_button = PhotoImage(file="Images/analysis1.png")
+Button(root, image= analysis_button, bd=0, bg=BACKGROUND_COLOR, cursor='hand2').place(x=1160,y=220)
+
+######################## Info Button ##############
+info_button = PhotoImage(file="Images/info1.png")
+Button(root, image= info_button, bd=0, bg=BACKGROUND_COLOR, cursor='hand2').place(x=0,y=380)    
+
+######################## Save Button ##############
+save_button = PhotoImage(file="Images/save1.png")
+Button(root, image= save_button, bd=0, bg=BACKGROUND_COLOR, cursor='hand2').place(x=1340,y=260)    
 
 root.mainloop()
