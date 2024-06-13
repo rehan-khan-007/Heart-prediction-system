@@ -30,6 +30,41 @@ root.geometry("1445x730+60+80")
 root.resizable(False, False)
 root.config(bg=BACKGROUND_COLOR)
 
+############### Info window (operated by info button) #############
+def info():
+    icon_window = Toplevel(root)
+    icon_window.title('Information')
+    icon_window.geometry("700x550+400+100")
+
+    # icon image of tkinter info window
+    icon_image = PhotoImage(file='Images/info.png')
+    icon_window.iconphoto(False, icon_image)
+
+    # Heading
+    Label(icon_window, text="Information related to Dataset", font='Robot 19 bold').pack(padx=20,pady=20)
+
+    # Info
+    Label(icon_window, text="age - age in years", font='arial 11').place(x=20, y=100)
+    Label(icon_window, text="sex - sex (1 = male; 0 = female)", font='arial 11').place(x=20, y=130)
+    Label(icon_window, text="cp - chest pain type (0 = typical angina; 1 = atypical angina; 2 = non-anginal pain; 3 = asymptomatic)", font='arial 11').place(x=20, y=160)
+    Label(icon_window, text="trestbps - resting blood pressure (in mm Hg on admission to the hospital)", font='arial 11').place(x=20, y=190)
+    Label(icon_window, text="chol - serum cholesterol in mg/dl", font='arial 11').place(x=20, y=220)
+    Label(icon_window, text="fbs - fasting blood sugar > 120 mg/dl (1 = true; 0 = false)", font='arial 11').place(x=20, y=250)
+    Label(icon_window, text="restecg - resting electrocardiographic results (0 = normal; 1 = having ST-T; 2 = hypertrophy)", font='arial 11').place(x=20, y=280)
+    Label(icon_window, text="thalach - maximum heart rate achieved", font='arial 11').place(x=20, y=310)
+    Label(icon_window, text="exang - exercise induced angina (1 = yes; 0 = no)", font='arial 11').place(x=20, y=340)
+    Label(icon_window, text="oldpeak - ST depression induced by exercise relative to rest", font='arial 11').place(x=20, y=370)
+    Label(icon_window, text="slope - the slope of the peak exercise ST segment (0 = upsloping; 1 = flat; 2 = downsloping)", font='arial 11').place(x=20, y=400)
+    Label(icon_window, text="ca - number of major vessels (0-3) colored by flourosopy", font='arial 11').place(x=20, y=430)
+    Label(icon_window, text="thal - 0 = normal; 1 = fixed defect; 2 = reversable defect", font='arial 11').place(x=20, y=460)
+
+
+
+
+
+
+    icon_window.mainloop()
+
 # Set the icon of tkinter as heart
 icon_path = "spirit_love_like_valentine_romance_soul_heart_game_icon_262424.ico"
 root.iconbitmap(icon_path)
@@ -262,7 +297,7 @@ Button(root, image= analysis_button, bd=0, bg='black', cursor='hand2').place(x=1
 
 ######################## Info Button ##############
 info_button = PhotoImage(file="Images/info1.png")
-Button(root, image= info_button, bd=0, bg=BACKGROUND_COLOR, cursor='hand2').place(x=0,y=380)    
+Button(root, image= info_button, bd=0, bg=BACKGROUND_COLOR, cursor='hand2', command=info).place(x=0,y=380)    
 
 ######################## Save Button ##############
 save_button = PhotoImage(file="Images/save1.png")
