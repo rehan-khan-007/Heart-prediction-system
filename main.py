@@ -38,67 +38,75 @@ def analysis():
     name = Name.get()
     D1 = Date.get()
     today = datetime.date.today()
-    A = today.year-DOB.get()
+    try:
+        A = today.year - int(DOB.get())
+    except ValueError:
+        messagebox.showerror("Invalid input", "Please enter a valid year of birth.")
+        return
 
     try:
         B = selection()
     except:
-        messagebox.showerror("missing", "Please select Gender!!")
+        messagebox.showerror("Missing input", "Please select Gender!")
         return
-    
+
     try:
         F = selection2()
     except:
-        messagebox.showerror("missing", "Please select fbs!!")
+        messagebox.showerror("Missing input", "Please select fbs!")
         return
-    
+
     try:
         I = selection3()
     except:
-        messagebox.showerror("missing", "Please select exang!!")
+        messagebox.showerror("Missing input", "Please select Exang!")
         return
-    
+
     try:
         C = int(selection4())
     except:
-        messagebox.showerror("missing", "Please select cp!!")
+        messagebox.showerror("Missing input", "Please select CP!")
         return
-    
+
     try:
         G = int(restecg_combobox.get())
     except:
-        messagebox.showerror("missing", "Please select restecg!!")
+        messagebox.showerror("Missing input", "Please select restecg!")
         return
-    
+
     try:
         K = int(selection5())
     except:
-        messagebox.showerror("missing", "Please select slope!!")
+        messagebox.showerror("Missing input", "Please select slope!")
         return
-    
+
     try:
         L = int(ca_combobox.get())
     except:
-        messagebox.showerror("missing", "Please select ca!!")
+        messagebox.showerror("Missing input", "Please select ca!")
         return
 
     try:
         M = int(thal_combobox.get())
     except:
-        messagebox.showerror("missing", "Please select thal!!")
+        messagebox.showerror("Missing input", "Please select Thal!")
         return
-    
+
     try:
         D = int(trestbps.get())
         E = int(chol.get())
         H = int(thalach.get())
-        J = int(oldpeak.get())
-    except:
-        messagebox.showerror("missing data", "Some data entries are missing!!")
+        J = float(oldpeak.get())  # Ensure oldpeak is float
+    except ValueError:
+        messagebox.showerror("Invalid input", "Some data entries are missing or invalid!")
         return
-    
-    ####### First Graph
-    f = Figure(figsize=(5,5), dpi=100)
+
+    # Debug: Print collected input data
+    print(f"Collected input data: {A, B, C, D, E, F, G, H, I, J, K, L, M}")
+
+    ###### Create and display graphs ######
+
+    f = Figure(figsize=(5, 5), dpi=100)
     a = f.add_subplot(111)
     a.plot(["Gender", 'fbs', 'exang'], [B, F, I], marker='o', linestyle='-')
     f.subplots_adjust(left=0.2, top=0.95, right=0.95)
@@ -106,28 +114,25 @@ def analysis():
     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
     canvas._tkcanvas.place(width=250, height=250, x=650, y=215)
 
-    ####### Second Graph
-    f2 = Figure(figsize=(5,5), dpi=100)
+    f2 = Figure(figsize=(5, 5), dpi=100)
     a2 = f2.add_subplot(111)
-    a2.plot(["age", 'trestbps', 'chol', 'thalach'],[A, D, E, H], marker='o', linestyle='-')
+    a2.plot(["age", 'trestbps', 'chol', 'thalach'], [A, D, E, H], marker='o', linestyle='-')
     f2.subplots_adjust(left=0.2, top=0.95, right=0.93)
     canvas2 = FigureCanvasTkAgg(f2)
     canvas2.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
     canvas2._tkcanvas.place(width=250, height=250, x=900, y=215)
 
-    ####### Third Graph
-    f3 = Figure(figsize=(5,5), dpi=100)
+    f3 = Figure(figsize=(5, 5), dpi=100)
     a3 = f3.add_subplot(111)
-    a3.plot(['oldpeak', 'restcg','cp'],[J, G, C], marker='o', linestyle='-')
+    a3.plot(['oldpeak', 'restcg', 'cp'], [J, G, C], marker='o', linestyle='-')
     f3.subplots_adjust(left=0.2, top=0.95, right=0.95)
     canvas3 = FigureCanvasTkAgg(f3)
     canvas3.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
     canvas3._tkcanvas.place(width=250, height=250, x=650, y=465)
 
-    ####### Fourth Graph
-    f4 = Figure(figsize=(5,5), dpi=100)
+    f4 = Figure(figsize=(5, 5), dpi=100)
     a4 = f4.add_subplot(111)
-    a4.plot(['slope', 'ca', 'thal'],[K, L, M], marker='o', linestyle='-')
+    a4.plot(['slope', 'ca', 'thal'], [K, L, M], marker='o', linestyle='-')
     f4.subplots_adjust(left=0.2, top=0.95, right=0.95)
     canvas3 = FigureCanvasTkAgg(f4)
     canvas3.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
@@ -148,9 +153,16 @@ def analysis():
     # Evaluate model
     evaluate_model(model, X_train, Y_train, X_test, Y_test)
 
-    input_data = (A, B, C, D, E, F, G, H, I, J, K, L, M)  
+    input_data = (A, B, C, D, E, F, G, H, I, J, K, L, M)
     feature_names = X.columns  # Use feature names from the loaded data
+
+    # Debug: Print input data before prediction
+    print(f"Input data for prediction: {input_data}")
+
     prediction = make_prediction(model, scaler, input_data, feature_names)
+
+    # Debug: Print prediction result
+    print(f"Prediction result: {prediction}")
 
     if prediction == 0:
         print('The Person does not have a Heart Disease')
@@ -160,6 +172,7 @@ def analysis():
         print('The Person has Heart Disease')
         report.config(text=f"Report: {1}", fg='#ed1c24')
         report1.config(text=f"{name}, you have \n a heart disease")
+
 
 ############### Info window (operated by info button) #############
 def info():

@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.preprocessing import StandardScaler
 
 # Function to load and prepare the data
@@ -37,6 +37,15 @@ def evaluate_model(model, X_train, Y_train, X_test, Y_test):
     X_test_prediction = model.predict(X_test)
     test_data_accuracy = accuracy_score(X_test_prediction, Y_test)
     print('Accuracy on Test data : ', test_data_accuracy)
+
+    # Calculate and print additional metrics
+    precision = precision_score(Y_test, X_test_prediction)
+    recall = recall_score(Y_test, X_test_prediction)
+    f1 = f1_score(Y_test, X_test_prediction)
+    
+    print('Precision on Test data : ', precision)
+    print('Recall on Test data : ', recall)
+    print('F1 Score on Test data : ', f1)
 
 # Function to make predictions
 def make_prediction(model, scaler, input_data, feature_names):
