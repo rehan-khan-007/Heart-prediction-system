@@ -13,6 +13,8 @@ from matplotlib.figure import Figure
 import numpy as np
 import matplotlib.pyplot as plt
 
+from backend import load_and_prepare_data, scale_data, split_data, train_model, evaluate_model, make_prediction
+
 # Define colors
 BACKGROUND_COLOR = "#63C5DA" # Light Blue color
 FRAME_BG_COLOR = "#62a7ff" # Medium Blue color
@@ -95,22 +97,6 @@ def analysis():
         messagebox.showerror("missing data", "Some data entries are missing!!")
         return
     
-    ### checking whether all're working or not
-    print("A is age:",A)
-    print("B is gender :",B)
-    print("C is cp:",C)
-    print("D is trestbps:",D)
-    print("E is chol",E)
-    print("F is fbs:",F)
-    print("G is restcg:",G)
-    print ("H is thalach:",H)
-    print("I is Exang:",I)
-    print("J is oldpeak:",J)
-    print("K is slop:",K)
-    print("L is ca:",L)
-    print ("M is thal:",M)
-
-
     ####### First Graph
     f = Figure(figsize=(5,5), dpi=100)
     a = f.add_subplot(111)
@@ -136,7 +122,7 @@ def analysis():
     f3.subplots_adjust(left=0.2, top=0.95, right=0.95)
     canvas3 = FigureCanvasTkAgg(f3)
     canvas3.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-    canvas3._tkcanvas.place(width=250, height=250, x=650, y=466)
+    canvas3._tkcanvas.place(width=250, height=250, x=650, y=465)
 
     ####### Fourth Graph
     f4 = Figure(figsize=(5,5), dpi=100)
@@ -145,12 +131,35 @@ def analysis():
     f4.subplots_adjust(left=0.2, top=0.95, right=0.95)
     canvas3 = FigureCanvasTkAgg(f4)
     canvas3.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-    canvas3._tkcanvas.place(width=250, height=250, x=900, y=466)
+    canvas3._tkcanvas.place(width=250, height=250, x=900, y=465)
 
+    # Load and prepare data
+    X, Y = load_and_prepare_data('heart.csv')
 
-    # Input Data
-    input_data = (A, B, C, D, E, F, G, H, I, J, K, L, M)
+    # Scale data
+    X_scaled, scaler = scale_data(X)
 
+    # Split data
+    X_train, X_test, Y_train, Y_test = split_data(X_scaled, Y)
+
+    # Train model
+    model = train_model(X_train, Y_train)
+
+    # Evaluate model
+    evaluate_model(model, X_train, Y_train, X_test, Y_test)
+
+    input_data = (A, B, C, D, E, F, G, H, I, J, K, L, M)  
+    feature_names = X.columns  # Use feature names from the loaded data
+    prediction = make_prediction(model, scaler, input_data, feature_names)
+
+    if prediction == 0:
+        print('The Person does not have a Heart Disease')
+        report.config(text=f"Report: {0}", fg='#8dc63f')
+        report1.config(text=f"{name}, you don't \n have a heart disease")
+    else:
+        print('The Person has Heart Disease')
+        report.config(text=f"Report: {1}", fg='#ed1c24')
+        report1.config(text=f"{name}, you have \n a heart disease")
 
 ############### Info window (operated by info button) #############
 def info():
@@ -166,19 +175,19 @@ def info():
     Label(icon_window, text="Information related to Dataset", font='Robot 19 bold').pack(padx=20,pady=20)
 
     # Info
-    Label(icon_window, text="age - age in years", font='arial 11').place(x=20, y=100)
-    Label(icon_window, text="gender - gender (1 = male; 0 = female)", font='arial 11').place(x=20, y=130)
-    Label(icon_window, text="cp - chest pain type (0 = typical angina; 1 = atypical angina; 2 = non-anginal pain; 3 = asymptomatic)", font='arial 11').place(x=20, y=160)
-    Label(icon_window, text="trestbps - resting blood pressure (in mm Hg on admission to the hospital)", font='arial 11').place(x=20, y=190)
-    Label(icon_window, text="chol - serum cholesterol in mg/dl", font='arial 11').place(x=20, y=220)
-    Label(icon_window, text="fbs - fasting blood sugar > 120 mg/dl (1 = true; 0 = false)", font='arial 11').place(x=20, y=250)
-    Label(icon_window, text="restecg - resting electrocardiographic results (0 = normal; 1 = having ST-T; 2 = hypertrophy)", font='arial 11').place(x=20, y=280)
-    Label(icon_window, text="thalach - maximum heart rate achieved", font='arial 11').place(x=20, y=310)
-    Label(icon_window, text="exang - exercise induced angina (1 = yes; 0 = no)", font='arial 11').place(x=20, y=340)
-    Label(icon_window, text="oldpeak - ST depression induced by exercise relative to rest", font='arial 11').place(x=20, y=370)
-    Label(icon_window, text="slope - the slope of the peak exercise ST segment (0 = upsloping; 1 = flat; 2 = downsloping)", font='arial 11').place(x=20, y=400)
-    Label(icon_window, text="ca - number of major vessels (0-3) colored by flourosopy", font='arial 11').place(x=20, y=430)
-    Label(icon_window, text="thal - 0 = normal; 1 = fixed defect; 2 = reversable defect", font='arial 11').place(x=20, y=460)
+    Label(icon_window, text="age :- age in years", font='arial 11').place(x=20, y=100)
+    Label(icon_window, text="gender :- gender (1 = male; 0 = female)", font='arial 11').place(x=20, y=130)
+    Label(icon_window, text="cp :- chest pain type (0 = typical angina; 1 = atypical angina; 2 = non-anginal pain; 3 = asymptomatic)", font='arial 11').place(x=20, y=160)
+    Label(icon_window, text="trestbps :- resting blood pressure (in mm Hg on admission to the hospital)", font='arial 11').place(x=20, y=190)
+    Label(icon_window, text="chol :- serum cholesterol in mg/dl", font='arial 11').place(x=20, y=220)
+    Label(icon_window, text="fbs :- fasting blood sugar > 120 mg/dl (1 = true; 0 = false)", font='arial 11').place(x=20, y=250)
+    Label(icon_window, text="restecg :- resting electrocardiographic results (0 = normal; 1 = having ST-T; 2 = hypertrophy)", font='arial 11').place(x=20, y=280)
+    Label(icon_window, text="thalach :- maximum heart rate achieved", font='arial 11').place(x=20, y=310)
+    Label(icon_window, text="exang :- exercise induced angina (1 = yes; 0 = no)", font='arial 11').place(x=20, y=340)
+    Label(icon_window, text="oldpeak :- ST depression induced by exercise relative to rest", font='arial 11').place(x=20, y=370)
+    Label(icon_window, text="slope :- the slope of the peak exercise ST segment (0 = upsloping; 1 = flat; 2 = downsloping)", font='arial 11').place(x=20, y=400)
+    Label(icon_window, text="ca :- number of major vessels (0-3) colored by flourosopy", font='arial 11').place(x=20, y=430)
+    Label(icon_window, text="thal :- 0 = normal; 1 = fixed defect; 2 = reversable defect", font='arial 11').place(x=20, y=460)
 
     icon_window.mainloop()
 
@@ -235,11 +244,12 @@ create_label(heading_entry, "Today's Date", 350, 10)
 create_label(heading_entry, "Patient Name", 25, 90)
 create_label(heading_entry, "Birth Year", 350, 90)
 
-entry_images = [PhotoImage(file="Images/Rectangle1.png"), PhotoImage(file="Images/Rectangle2.png")]
-entry_positions = [(25, 40), (25, 120), (350, 40), (350, 120)]
-
-for img, (x, y) in zip(entry_images*2, entry_positions):
-    Label(heading_entry, image=img, bg="#B9BBB6").place(x=x, y=y)
+Entry_image=PhotoImage(file="Images/Rectangle1.png")
+Entry_image2=PhotoImage(file="Images/Rectangle2.png")
+Label(heading_entry,image=Entry_image,bg="#B9BBB6").place(x=25,y=40)
+Label(heading_entry,image=Entry_image,bg="#B9BBB6").place(x=350,y=40)
+Label(heading_entry,image=Entry_image2,bg="#B9BBB6").place(x=25,y=120)
+Label(heading_entry,image=Entry_image2,bg="#B9BBB6").place(x=350,y=120)
 
 # Entry field for Registration number
 registration = IntVar()
@@ -396,11 +406,10 @@ report_background = Label(image=square_report_image, bg=BACKGROUND_COLOR)
 report_background.place(x=1160, y=340)
 
 report = Label(root, font='arial 25 bold', bg='white', fg='#8dc63f')
-report.place(x=1210, y=550)
+report.place(x=1195, y=550)
 
 report1 = Label(root, font='arial 10 bold', bg='white')
-report1.place(x=1170, y=610)
-
+report1.place(x=1195, y=610)
 
 ######################### Graph ###############
 graph_image = PhotoImage(file='Images/graph.png')
@@ -408,7 +417,6 @@ Label(image=graph_image).place(x=675, y=220)
 Label(image=graph_image).place(x=920, y=220)
 Label(image=graph_image).place(x=675, y=450)
 Label(image=graph_image).place(x=920, y=450)
-
 
 ######################## Analysis Button ##########
 analysis_button = PhotoImage(file="Images/analysis1.png")
@@ -438,20 +446,16 @@ def change_mode():
         mode.config(image=smoking_icon, activebackground='white')
         button_mode = True
 
-    print(choice)
-
 smoking_icon = PhotoImage(file="Images/smoker.png")
 non_smoking_icon = PhotoImage(file="Images/non-smoker.png")
 
 mode = Button(root, image=smoking_icon, bg = '#dbe0e3', bd=0, cursor='hand2', command=change_mode)
 mode.place(x=400, y=465)
 
-
 ################ Log Out Button ############
 
 logout_icon = PhotoImage(file='Images/logout1.png')
 logout_button = Button(root, image=logout_icon, bg='black', cursor='hand2', bd=0, command=logout)
 logout_button.place(x=1330, y=210)
-
 
 root.mainloop()
