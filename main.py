@@ -25,7 +25,6 @@ LABEL_BG_COLOR = "#FF7F7F" # Light red or salmon color
 LABEL_FG_COLOR = FRAME_FG_COLOR
 RADIO_BG_COLOR = "#228B22"
 
-
 # Create the main window
 root = Tk()
 root.title("Heart Attack Prediction System")
@@ -33,8 +32,11 @@ root.geometry("1445x730+60+80")
 #root.resizable(False, False)
 root.config(bg=BACKGROUND_COLOR)
 
+from MySQL import *
+
 ######### Analysis #######################
 def analysis():
+    global prediction
     name = Name.get()
     D1 = Date.get()
     today = datetime.date.today()
@@ -65,7 +67,7 @@ def analysis():
     try:
         C = int(selection4())
     except:
-        messagebox.showerror("Missing input", "Please select CP!")
+        messagebox.showerror("Missing input", "Please select cp!")
         return
 
     try:
@@ -100,9 +102,6 @@ def analysis():
     except ValueError:
         messagebox.showerror("Invalid input", "Some data entries are missing or invalid!")
         return
-
-    # Debug: Print collected input data
-    print(f"Collected input data: {A, B, C, D, E, F, G, H, I, J, K, L, M}")
 
     ###### Create and display graphs ######
 
@@ -173,6 +172,88 @@ def analysis():
         report.config(text=f"Report: {1}", fg='#ed1c24')
         report1.config(text=f"{name}, you have \n a heart disease")
 
+############# Save Button ############
+def Save():
+    global prediction
+    B3 = Name.get()
+    C3 = Date.get()
+    D3 = DOB.get()
+
+    today = datetime.date.today()
+    A2 = today.year-DOB.get()
+
+    try:
+        B2 = selection()
+    except:
+        messagebox.showerror("Missing Data", 'Please select Gender!')
+    
+    try:
+        F2 = selection2()
+    except:
+        messagebox.showerror("Missing Data", 'Please select fbs!')
+    
+    try:
+        I2 = selection3()
+    except:
+        messagebox.showerror("Missing Data", 'Please select exang!')
+    
+    try:
+        C2 = selection4()
+    except:
+        messagebox.showerror("Missing Data", 'Please select cp!')
+    
+    try:
+        G2 = restecg_combobox.get()
+    except:
+        messagebox.showerror("Missing Data", 'Please select restecg!')
+    
+    try:
+        K2 = selection5()
+    except:
+        messagebox.showerror("Missing Data", 'Please select slope!')
+    
+    try:
+        L2 = ca_combobox.get()
+    except:
+        messagebox.showerror("Missing Data", 'Please select ca!')
+    
+    try:
+        M2 = thal_combobox.get()
+    except:
+        messagebox.showerror("Missing Data", 'Please select thal!')
+    
+    try:
+        D2 = int(trestbps.get())
+        E2 = int(chol.get())
+        H2 = int(thalach.get())
+        J2 = float(oldpeak.get())  # Ensure oldpeak is float
+    except ValueError:
+        messagebox.showerror("Invalid input", "Some data entries are missing or invalid!")
+        return
+
+    print(B3)
+    print(C3)
+    print(D3)
+    print(A2)
+    print(B2)
+    print(D2)
+    print(E2)
+    print(H2)
+    print(J2)
+    print(F2)
+    print(I2)
+    print(C2)
+    print(G2)
+    print(K2)
+    print(L2)
+    print(M2)
+
+    Save_data_MySQL(B3,C3,int(D3),int(A2),int(B2),int(D2),int(E2),int(H2),float(J2),int(F2),int(I2),int(C2),int(G2),int(K2),int(L2),int(M2), int(prediction) )
+    
+    clear()
+
+    root.destroy()
+    os.system('main.py')
 
 ############### Info window (operated by info button) #############
 def info():
@@ -210,12 +291,8 @@ def logout():
 
 #### It is used to clear the entry fields all at once
 def clear():
-    Name.get("")
-    DOB.get("")
-    trestbps.get("")
-    chol.get("")
-    thalach.set('')
-    oldpeak.set('')
+    for var in [Name, DOB, trestbps, chol, thalach, oldpeak]:
+        var.set('')
 
 # Set the icon of tkinter as heart
 icon_path = "spirit_love_like_valentine_romance_soul_heart_game_icon_262424.ico"
@@ -236,13 +313,9 @@ def load_and_place_image(image_path, x, y, bg_color):
 
 header_images = ["Images/Header1.png", "Images/Header2.png", "Images/Header3.png"]
 x_offset = 0
-labels = []
-
 for img_path in header_images:
-    label = load_and_place_image(img_path, x=x_offset, y=0, bg_color=BACKGROUND_COLOR)
-    if label:
-        labels.append(label)
-        x_offset += label.image.width()
+    load_and_place_image(img_path, x=x_offset, y=0, bg_color=BACKGROUND_COLOR)
+    x_offset += 600  # Adjust based on actual image widths
 
 # Frame 3
 heading_entry = Frame(root, width=650, height=180, bg="#B9BBB6") # Light grey with subtle green
@@ -266,25 +339,21 @@ Label(heading_entry,image=Entry_image2,bg="#B9BBB6").place(x=350,y=120)
 
 # Entry field for Registration number
 registration = IntVar()
-reg_entry = Entry(heading_entry, textvariable=registration, width=20, font="arial 15", bg=ENTRY_BG_COLOR, fg=ENTRY_FG_COLOR, bd=0)
-reg_entry.place(x=31, y=49)
+reg_entry = Entry(heading_entry, textvariable=registration, width=20, font="arial 15", bg=ENTRY_BG_COLOR, fg='white', bd=0).place(x=31, y=49)
 
 # Entry field for Current date
 Date = StringVar()
 today = date.today()
 Date.set(today.strftime("%d/%m/%Y"))
-date_entry = Entry(heading_entry, textvariable=Date, width=15, font='arial 15', bg=ENTRY_BG_COLOR, fg=ENTRY_FG_COLOR, bd=0)
-date_entry.place(x=360, y=49)
+date_entry = Entry(heading_entry, textvariable=Date, width=15, font='arial 15', bg=ENTRY_BG_COLOR, fg='white', bd=0).place(x=360, y=49)
 
 # Entry field for Name
 Name = StringVar()
-name_entry = Entry(heading_entry, textvariable=Name, width=21, font="arial 16", bg="#ededed", fg="#222222", bd=0)
-name_entry.place(x=31, y=128)
+name_entry = Entry(heading_entry, textvariable=Name, width=21, font="arial 16", bg="#ededed", fg="#222222", bd=0).place(x=31, y=128)
 
 # Entry field for Date of Birth
 DOB = IntVar()
-dob_entry = Entry(heading_entry, textvariable=DOB, width=18, font="arial 16", bg="#ededed", fg="#222222", bd=0)
-dob_entry.place(x=360, y=130)
+dob_entry = Entry(heading_entry, textvariable=DOB, width=18, font="arial 16", bg="#ededed", fg="#222222", bd=0).place(x=360, y=130)
 
 ######################################### Body for all the personal health details ##################
 
@@ -304,8 +373,6 @@ def selection():
     elif gender.get()==2:
         GENDER = 2
         return(GENDER)
-    else:
-        print(GENDER)
 
 # Stores the result of fbs
 def selection2():
@@ -327,24 +394,18 @@ def selection3():
 
 # Gender radio button
 gender = IntVar()
-R1_button = Radiobutton(detail_entry, text='Male', variable = gender, value= 1, command= selection)
-R2_button = Radiobutton(detail_entry, text='Female', variable = gender, value= 2, command= selection)
-R1_button.place(x=95, y=10)
-R2_button.place(x=145, y=10)
+R1_button = Radiobutton(detail_entry, text='Male', variable = gender, value= 1, command= selection).place(x=95, y=10)
+R2_button = Radiobutton(detail_entry, text='Female', variable = gender, value= 2, command= selection).place(x=145, y=10)
 
 # Fbs radio button
 fbs = IntVar()
-R3_button = Radiobutton(detail_entry, text='True', variable = fbs, value= 1, command= selection2)
-R4_button = Radiobutton(detail_entry, text='False', variable = fbs, value= 2, command= selection2)
-R3_button.place(x=258, y=10)
-R4_button.place(x=305, y=10)
+R3_button = Radiobutton(detail_entry, text='True', variable = fbs, value= 1, command= selection2).place(x=258, y=10)
+R4_button = Radiobutton(detail_entry, text='False', variable = fbs, value= 2, command= selection2).place(x=305, y=10)
 
 # Exang radio button
 exang = IntVar()
-R5_button = Radiobutton(detail_entry, text='Yes', variable = exang, value= 1, command= selection3)
-R6_button = Radiobutton(detail_entry, text='No', variable = exang, value= 2, command= selection3)
-R5_button.place(x=425, y=10)
-R6_button.place(x=465, y=10)
+R5_button = Radiobutton(detail_entry, text='Yes', variable = exang, value= 1, command= selection3).place(x=425, y=10)
+R6_button = Radiobutton(detail_entry, text='No', variable = exang, value= 2, command= selection3).place(x=465, y=10)
 
 ############# Combo box ############################
 Label(detail_entry, text='cp:', font='arial 13', bg= RADIO_BG_COLOR, fg=FRAME_FG_COLOR).place(x=30, y=50)
@@ -374,7 +435,6 @@ def selection5():
         return(1)
     elif input=="2 = downsloping":
         return(2)
-
 
 # These are all the detailed options in each of the combo boxes
 cp_combobox = Combobox(detail_entry, values=['0 = typical angina', '1 = atypical angina', '2 = non-anginal pain', '3 = asymptomatic'], font= 'arial 12' , state='r', width=15)
@@ -441,7 +501,7 @@ Button(root, image= info_button, bd=0, bg=BACKGROUND_COLOR, cursor='hand2', comm
 
 ######################## Save Button ##############
 save_button = PhotoImage(file="Images/save1.png")
-Button(root, image= save_button, bd=0, bg='black', cursor='hand2').place(x=1330,y=280)    
+Button(root, image= save_button, bd=0, bg='black', cursor='hand2',command= Save).place(x=1330,y=280)    
 
 #################### Smoking and Non-Smoking Button ###############
 button_mode = True
@@ -461,14 +521,10 @@ def change_mode():
 
 smoking_icon = PhotoImage(file="Images/smoker.png")
 non_smoking_icon = PhotoImage(file="Images/non-smoker.png")
-
-mode = Button(root, image=smoking_icon, bg = '#dbe0e3', bd=0, cursor='hand2', command=change_mode)
-mode.place(x=400, y=465)
+mode = Button(root, image=smoking_icon, bg = '#dbe0e3', bd=0, cursor='hand2', command=change_mode).place(x=400, y=465)
 
 ################ Log Out Button ############
-
 logout_icon = PhotoImage(file='Images/logout1.png')
-logout_button = Button(root, image=logout_icon, bg='black', cursor='hand2', bd=0, command=logout)
-logout_button.place(x=1330, y=210)
+logout_button = Button(root, image=logout_icon, bg='black', cursor='hand2', bd=0, command=logout).place(x=1330, y=210)
 
 root.mainloop()
